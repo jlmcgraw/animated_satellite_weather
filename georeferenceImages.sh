@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu                # Always put this in Bourne shell scripts
-IFS="`printf '\n\t'`"  # Always put this in Bourne shell scripts
+IFS=$(printf '\n\t')  # Always put this in Bourne shell scripts
  
 # EPSG:4267 	North American Datum of 1927 (NAD 27)
 # EPSG:4269 	North American Datum of 1983 (NAD 83)
