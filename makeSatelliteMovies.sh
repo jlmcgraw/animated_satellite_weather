@@ -9,6 +9,7 @@ destination_directory="/media/sf_Shared_Folder"
 
 namer_vis_fog_directory="./aviationweather.gov/data/obs/sat/merc/"
 ir_icao_directory="./aviationweather.gov/data/obs/sat/intl/"
+vis_goes_directory="./aviationweather.gov/data/obs/sat/goes/"
 
 #Colors for highlighting text
 HIGHLIGHT="\e[01;34m"
@@ -51,7 +52,7 @@ for area in A B1 C D E F G H I J M
 	    "$destination_directory/animated_Ir_Icao-$area.mp4" 
   done
 
-
+#-------------------------------------------------------------------------------------------------------------------
 #North American visible clouds
 #Make frames directory if necessary
 mkdir -p "namer_vis_fog-frames"
@@ -91,4 +92,43 @@ convert   \
 	-loop 0   \
 	"./aviationweather.gov/data/obs/sat/merc/*.namer_vis_fog.png"   \
 	"$destination_directory/animatedNamerVisFog.gif" \
-	
+
+#-------------------------------------------------------------------------------------------------------------------
+#GOES visible
+
+#For each area..
+for area in E W
+  do
+    vis_goes_frames_directory="vis_goes_$area-frames"
+    #Make directory for this area if necessary
+    echo -e "\n${HIGHLIGHT}Geos Visible Area: $area${NORMAL}"
+    mkdir -p "$vis_goes_frames_directory"
+    set +e
+    #Clean out old frame links for this area
+    rm "$vis_goes_frames_directory"/*.jpg
+    rm "$vis_goes_frames_directory"/*.png
+    set -e 
+    
+    #Find all files of type ir and sort by filename (which is YYYYMMDD-HHMM)
+    files=$(find ./aviationweather.gov/data/obs/sat/goes/ -maxdepth 1 -name "????????_????_vis_goes$area.jpg"  -type f | sort -u)
+
+    #Make new links to each saved image in a sequential fashion
+    a=1
+    for i in $files
+      do
+	new=$(printf "%03d" ${a})
+# 	echo "${i} -> ${new}"
+	ln  ${i} ./$vis_goes_frames_directory/${new}.jpg
+	let a=a+1
+      done
+    
+    #Create an mp4 from the individual jpegs
+    avconv \
+            -loglevel warning \
+	    -y \
+	    -r 5 \
+	    -i ./$vis_goes_frames_directory/%03d.jpg   \
+	    -r 24 \
+	    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+	    "$destination_directory/animated_vis_goes-$area.mp4" 
+  done
