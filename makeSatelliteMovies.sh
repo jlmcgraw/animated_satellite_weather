@@ -1,8 +1,11 @@
 #!/bin/bash
 set -eu                # Always put this in Bourne shell scripts
-IFS="`printf '\n\t'`"  # Always put this in Bourne shell scripts
+IFS=$(printf '\n\t')  # Always put this in Bourne shell scripts
 
 #sudo apt-get install libav
+
+#Where to save the completed movie
+destination_directory="/media/sf_Shared_Folder"
 
 # # ICAO AREA A  
 # # • Americas • Mercator • 65N-50S 120W-25W • (From image: 67N-54S , 137W-13W)
@@ -44,9 +47,12 @@ IFS="`printf '\n\t'`"  # Always put this in Bourne shell scripts
 # for element in "${myarray[@]}"; do
 for area in A B1 C D E F G H I J M
   do
+    
     set +e
+    #Make directory if necessary
     echo $area
     mkdir "$area-frames"
+    #Clean out old frames
     rm "$area-frames"/*.jpg
     rm "$area-frames"/*.png
     set -e 
@@ -72,7 +78,7 @@ for area in A B1 C D E F G H I J M
 	    -i ./$area-frames/%03d.jpg   \
 	    -r 24 \
 	    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
-	    "/media/sf_Shared_Folder/animatedIrIcao-$area.mp4" 
+	    "$destination_directory/animatedIrIcao-$area.mp4" 
   done
 
 

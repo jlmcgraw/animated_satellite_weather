@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu                # Always put this in Bourne shell scripts
-IFS="`printf '\n\t'`"  # Always put this in Bourne shell scripts
+IFS=$(printf '\n\t')  # Always put this in Bourne shell scripts
 
 
 #http://mesonet.agron.iastate.edu/data/gis/images/4326/USCOMP/?C=M;O=A
