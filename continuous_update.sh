@@ -8,5 +8,6 @@ while true
     do
         ./freshenLocalData.sh
         ./makeSatelliteMovies.sh
+        echo "Sleeping..."
         sleep 6h
     done

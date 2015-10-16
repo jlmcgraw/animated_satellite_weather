@@ -24,8 +24,8 @@ for area in A B1 C D E F G H I J M
     mkdir -p "$area-frames"
     set +e
     #Clean out old frame links for this area
-    rm "$area-frames"/*.jpg
-    rm "$area-frames"/*.png
+    rm -f "$area-frames"/*.jpg
+    rm -f "$area-frames"/*.png
     set -e 
     
     #Find all files of type ir and sort by filename (which is YYYYMMDD-HHMM)
@@ -48,7 +48,7 @@ for area in A B1 C D E F G H I J M
 	    -r 5 \
 	    -i ./$area-frames/%03d.jpg   \
 	    -r 24 \
-	    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+	    -vf "scale=w=trunc(iw/2)*2:h=trunc(ih/2)*2" \
 	    "$destination_directory/animated_Ir_Icao-$area.mp4" 
   done
 
@@ -59,7 +59,7 @@ mkdir -p "namer_vis_fog-frames"
 
 #Clean up any old links
 set +e
-rm ./namer_vis_fog-frames/*.png
+rm -f ./namer_vis_fog-frames/*.png
 set -e
 
 #Find all of the fog images and sort by filename (which is YYYYMMDD-HHMM)
@@ -82,17 +82,17 @@ avconv \
 	-r 5 \
 	-i ./namer_vis_fog-frames/%03d.png   \
 	-r 24 \
-	-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+	-vf "scale=w=trunc(iw/2)*2:h=trunc(ih/2)*2" \
 	"$destination_directory/animated_Namer_vis_fog.mp4" 
 
-echo -e "\n${HIGHLIGHT}North American Fog gif${NORMAL}"	
-#Create an animated GIF from the PNG files
-convert   \
-	-delay 20   \
-	-loop 0   \
-	"./aviationweather.gov/data/obs/sat/merc/*.namer_vis_fog.png"   \
-	"$destination_directory/animatedNamerVisFog.gif" \
-
+# echo -e "\n${HIGHLIGHT}North American Fog gif${NORMAL}"	
+# #Create an animated GIF from the PNG files
+# convert   \
+# 	-delay 20   \
+# 	-loop 0   \
+# 	"./aviationweather.gov/data/obs/sat/merc/*.namer_vis_fog.png"   \
+# 	"$destination_directory/animatedNamerVisFog.gif" \
+# 
 #-------------------------------------------------------------------------------------------------------------------
 #GOES visible
 
@@ -105,8 +105,8 @@ for area in E W
     mkdir -p "$vis_goes_frames_directory"
     set +e
     #Clean out old frame links for this area
-    rm "$vis_goes_frames_directory"/*.jpg
-    rm "$vis_goes_frames_directory"/*.png
+    rm -f "$vis_goes_frames_directory"/*.jpg
+    rm -f "$vis_goes_frames_directory"/*.png
     set -e 
     
     #Find all files of type ir and sort by filename (which is YYYYMMDD-HHMM)
@@ -129,7 +129,7 @@ for area in E W
 	    -r 5 \
 	    -i ./$vis_goes_frames_directory/%03d.jpg   \
 	    -r 24 \
-	    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+	    -vf "scale=w=trunc(iw/2)*2:h=trunc(ih/2)*2" \
 	    "$destination_directory/animated_vis_goes-$area.mp4" 
   done
 
@@ -145,7 +145,7 @@ for area in rcm
     mkdir -p "$rcm_tops_frames_directory"
     set +e
     #Clean out old frame links for this area
-    rm "$rcm_tops_frames_directory"/*.gif
+    rm -f "$rcm_tops_frames_directory"/*.gif
     set -e 
     
     #Find all files of type ir and sort by filename (which is YYYYMMDD-HHMM)
@@ -168,6 +168,6 @@ for area in rcm
 	    -r 5 \
 	    -i ./$rcm_tops_frames_directory/%03d.gif   \
 	    -r 24 \
-	    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+	    -vf "scale=w=trunc(iw/2)*2:h=trunc(ih/2)*2" \
 	    "$destination_directory/animated_rcm_tops-$area.mp4" 
   done
